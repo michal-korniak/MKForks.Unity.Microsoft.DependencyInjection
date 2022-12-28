@@ -1,15 +1,15 @@
-[![NuGet](https://img.shields.io/nuget/v/Unity.Microsoft.DependencyInjection.svg)](https://www.nuget.org/packages/Unity.Microsoft.DependencyInjection)
+[![NuGet](https://img.shields.io/nuget/v/Unity.Microsoft.DependencyInjection.svg)](https://www.nuget.org/packages/MKForks.Unity.Microsoft.DependencyInjection)
 
-# Unity.Microsoft.DependencyInjection
+#  MKForks.Unity.Microsoft.DependencyInjection
 
 Unity extension to integrate with [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/DependencyInjection)  compliant systems
 
 ## Getting Started
 
-- Reference the `Unity.Microsoft.DependencyInjection` package from NuGet.
+- Reference the ` MKForks.Unity.Microsoft.DependencyInjection` package from NuGet.
 
 ```shell
-Install-Package Unity.Microsoft.DependencyInjection
+Install-Package  MKForks.Unity.Microsoft.DependencyInjection
 ```
 
 ## Registration:
