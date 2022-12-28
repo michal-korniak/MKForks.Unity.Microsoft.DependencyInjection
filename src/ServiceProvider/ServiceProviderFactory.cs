@@ -10,15 +10,17 @@ namespace Unity.Microsoft.DependencyInjection
         #region Fields
 
         private readonly IUnityContainer _container;
+        private readonly ServiceProviderOptions _options;
 
         #endregion
 
 
         #region Constructors
 
-        public ServiceProviderFactory(IUnityContainer container)
+        public ServiceProviderFactory(IUnityContainer container, ServiceProviderOptions options)
         {
             _container = container ?? new UnityContainer();
+            _options = options;
             ((UnityContainer)_container).AddExtension(new MdiExtension());
 
             _container.RegisterInstance<IServiceProviderFactory<IUnityContainer>>(this, new ContainerControlledLifetimeManager());
@@ -63,10 +65,10 @@ namespace Unity.Microsoft.DependencyInjection
         private IUnityContainer CreateServiceProviderContainer(IServiceCollection services)
         {
             var container = _container.CreateChildContainer();
-            new ServiceProviderFactory(container);
+            new ServiceProviderFactory(container, _options);    //This line is crucial, even if returned value is not used
 
             return ((UnityContainer)container).AddExtension(new MdiExtension())
-                                              .AddServices(services);
+                                              .AddServices(services, _options.TypesWithPreferedUnityImplementations);
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Unity.Lifetime;
 using Unity.Microsoft.DependencyInjection.Lifetime;
@@ -9,14 +10,22 @@ namespace Unity.Microsoft.DependencyInjection
 {
     internal static class Configuration
     {
-        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services)
+        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services, IEnumerable<Type> typesWithPreferedUnityImplementations)
         {
+            typesWithPreferedUnityImplementations = typesWithPreferedUnityImplementations ?? Enumerable.Empty<Type>();
             var lifetime = ((UnityContainer)container).Configure<MdiExtension>().Lifetime;
             var registerFunc = ((UnityContainer)container).Register;
 
             ((UnityContainer)container).Register = ((UnityContainer)container).AppendNew;
 
-            foreach (var descriptor in services) container.Register(descriptor, lifetime);
+            foreach (var descriptor in services)
+            {
+                bool isUnityImplementationPrefered = typesWithPreferedUnityImplementations.Contains(descriptor.ServiceType);
+                if (!isUnityImplementationPrefered || !container.CanResolve(descriptor.ServiceType))
+                {
+                    container.Register(descriptor, lifetime);
+                }
+            }
 
             ((UnityContainer)container).Register = registerFunc;
 
@@ -37,7 +46,7 @@ namespace Unity.Microsoft.DependencyInjection
             }
             else if (serviceDescriptor.ImplementationFactory != null)
             {
-                container.RegisterFactory(serviceDescriptor.ServiceType, 
+                container.RegisterFactory(serviceDescriptor.ServiceType,
                                         null,
                                         scope =>
                                         {
