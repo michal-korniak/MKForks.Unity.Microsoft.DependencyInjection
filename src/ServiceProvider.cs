@@ -4,9 +4,9 @@ using Unity.Lifetime;
 
 namespace Unity.Microsoft.DependencyInjection
 {
-    public class ServiceProvider : IServiceProvider, 
-                                   IServiceScopeFactory, 
-                                   IServiceScope, 
+    public class ServiceProvider : IServiceProvider,
+                                   IServiceScopeFactory,
+                                   IServiceScope,
                                    IDisposable
     {
         private IUnityContainer _container;
@@ -28,7 +28,7 @@ namespace Unity.Microsoft.DependencyInjection
             {
                 return _container.Resolve(serviceType);
             }
-            catch  { /* Ignore */}
+            catch { /* Ignore */}
 
             return null;
         }
@@ -58,7 +58,7 @@ namespace Unity.Microsoft.DependencyInjection
         public static IServiceProvider ConfigureServices(IServiceCollection services)
         {
             return new ServiceProvider(new UnityContainer().AddExtension(new MdiExtension())
-                                                           .AddServices(services));
+                                                           .AddServices(services, null));
         }
 
         public static explicit operator UnityContainer(ServiceProvider c)

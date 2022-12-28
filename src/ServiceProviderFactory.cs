@@ -8,11 +8,12 @@ namespace Unity.Microsoft.DependencyInjection
                                           IServiceProviderFactory<IServiceCollection>
     {
         private readonly IUnityContainer _container;
+        private readonly ServiceProviderOptions _options;
 
-        public ServiceProviderFactory(IUnityContainer container)
+        public ServiceProviderFactory(IUnityContainer container, ServiceProviderOptions options)
         {
             _container = container ?? new UnityContainer();
-
+            _options = options;
             _container.RegisterInstance<IServiceProviderFactory<IUnityContainer>>(this, new ContainerControlledLifetimeManager());
             _container.RegisterInstance<IServiceProviderFactory<IServiceCollection>>(this, new ExternallyControlledLifetimeManager());
         }
@@ -41,10 +42,10 @@ namespace Unity.Microsoft.DependencyInjection
         private IUnityContainer CreateServiceProviderContainer(IServiceCollection services)
         {
             var container = _container.CreateChildContainer();
-            new ServiceProviderFactory(container);
+            new ServiceProviderFactory(container, _options);
 
             return container.AddExtension(new MdiExtension())
-                            .AddServices(services);
+                            .AddServices(services, _options?.TypesWithPreferedUnityImplementations);
         }
     }
 }

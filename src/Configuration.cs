@@ -12,8 +12,9 @@ namespace Unity.Microsoft.DependencyInjection
     internal static class Configuration
     {
 
-        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services)
+        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services, IEnumerable<Type> typesWithPreferedUnityImplementations)
         {
+            typesWithPreferedUnityImplementations = typesWithPreferedUnityImplementations ?? Enumerable.Empty<Type>();
             var lifetime = container.Configure<MdiExtension>()
                                     .Lifetime;
 
@@ -25,19 +26,25 @@ namespace Unity.Microsoft.DependencyInjection
                 for (var i = 0; i < group.Length - 1; i++)
                 {
                     var descriptor = group[i];
-                    container.Register(descriptor, Guid.NewGuid().ToString(), lifetime);
+                    container.Register(descriptor, Guid.NewGuid().ToString(), lifetime, typesWithPreferedUnityImplementations);
                 }
 
                 // Register default types
-                container.Register(group[group.Length - 1], null, lifetime);
+                container.Register(group[group.Length - 1], null, lifetime, typesWithPreferedUnityImplementations);
             }
 
             return container;
         }
 
         internal static void Register(this IUnityContainer container,
-            ServiceDescriptor serviceDescriptor, string qualifier, ILifetimeContainer lifetime)
+            ServiceDescriptor serviceDescriptor, string qualifier, ILifetimeContainer lifetime, IEnumerable<Type> typesWithPreferedUnityImplementations)
         {
+            bool isUnityImplementationPrefered = typesWithPreferedUnityImplementations.Contains(serviceDescriptor.ServiceType);
+            if (isUnityImplementationPrefered && container.CanResolve(serviceDescriptor.ServiceType))
+            {
+                return;
+            }
+
             if (serviceDescriptor.ImplementationType != null)
             {
                 container.RegisterType(serviceDescriptor.ServiceType,
@@ -47,8 +54,8 @@ namespace Unity.Microsoft.DependencyInjection
             }
             else if (serviceDescriptor.ImplementationFactory != null)
             {
-                container.RegisterType(serviceDescriptor.ServiceType, 
-                                       qualifier, 
+                container.RegisterType(serviceDescriptor.ServiceType,
+                                       qualifier,
                                        serviceDescriptor.GetLifetime(lifetime),
                                         new InjectionFactory(scope =>
                                         {

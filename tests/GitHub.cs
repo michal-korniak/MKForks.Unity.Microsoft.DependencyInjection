@@ -95,7 +95,7 @@ namespace Unity.Microsoft.DependencyInjection.Tests
 
             IUnityContainer container = new UnityContainer().CreateChildContainer();
 
-            var factory = new ServiceProviderFactory(container);
+            var factory = new ServiceProviderFactory(container, null);
 
             var sp = factory.CreateServiceProvider(serviceCollection);
             var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();

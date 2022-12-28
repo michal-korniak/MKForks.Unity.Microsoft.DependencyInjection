@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 
 namespace Unity.Microsoft.DependencyInjection
 {
@@ -8,9 +9,10 @@ namespace Unity.Microsoft.DependencyInjection
     {
         private static ServiceProviderFactory _factory;
 
-        public static IWebHostBuilder UseUnityServiceProvider(this IWebHostBuilder hostBuilder, IUnityContainer container = null)
+        public static IWebHostBuilder UseUnityServiceProvider(this IWebHostBuilder hostBuilder, IUnityContainer container = null, Action<ServiceProviderOptions> options = null)
         {
-            _factory = new ServiceProviderFactory(container);
+            var optionsObject = ServiceProviderOptions.Create(options);
+            _factory = new ServiceProviderFactory(container, optionsObject);
 
 #if NETCOREAPP1_1
             return hostBuilder.ConfigureServices((services) =>
