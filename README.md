@@ -45,7 +45,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ## Examples
 
-For example of using Unity with Core 3.1 Web application follow [this link](https://github.com/unitycontainer/examples/tree/master/src/web/ASP.Net.Unity.Example)
+For example of using Unity with NET6 Web Api application follow [this link](https://github.com/unitycontainer/examples/tree/master/src/web/ASP.Net.Unity.Example)
 
 ## Fork
 
