@@ -1,6 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/sevk2yb2jokf8ltr/branch/master?svg=true)](https://ci.appveyor.com/project/IoC-Unity/microsoft-dependency-injection/branch/master)
-[![License](https://img.shields.io/badge/license-apache%202.0-60C060.svg)](https://github.com/IoC-Unity/microsoft-dependency-injection/blob/master/LICENSE)
-[![NuGet](https://img.shields.io/nuget/dt/Unity.Microsoft.DependencyInjection.svg)](https://www.nuget.org/packages/Unity.Microsoft.DependencyInjection)
 [![NuGet](https://img.shields.io/nuget/v/Unity.Microsoft.DependencyInjection.svg)](https://www.nuget.org/packages/Unity.Microsoft.DependencyInjection)
 
 # Unity.Microsoft.DependencyInjection
@@ -17,38 +14,18 @@ Install-Package Unity.Microsoft.DependencyInjection
 
 ## Registration:
 
-- In the `WebHostBuilder` add `UseUnityServiceProvider(...)` method
+- In the `builder.Host` add `UseUnityServiceProvider(...)` method
 
 ```C#
-public static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .UseUnityServiceProvider()   <---- Add this line
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
+var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseUnityServiceProvider();
 ```
 
 - In case Unity container configured via application configuration or by convention this container could be used to initialize service provider.
 
 ```C#
-public static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .UseUnityServiceProvider(_container)   //<---- Add this line
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
-```
-
-- Add optional method to your `Startup` class
-
-```C#
-public void ConfigureContainer(IUnityContainer container)
-{
-  // Could be used to register more types
-  container.RegisterType<IMyService, MyService>();
-}
+var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseUnityServiceProvider(container);
 ```
 
 ### Resolving Controllers from Unity
