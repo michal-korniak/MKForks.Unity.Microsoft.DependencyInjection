@@ -51,7 +51,7 @@ For example of using Unity with NET 6 Web Api application follow [this link](htt
 
 This project is a fork of https://github.com/unitycontainer/microsoft-dependency-injection. It adds additional options that wasn't available in original library. List of changes
 
-* Possiblity to choose prefered implementation (from default container or Unity). Example bellow:
+* Possiblity to choose prefered implementation (from default container or Unity). Example below:
 
 ```C#
 ...
