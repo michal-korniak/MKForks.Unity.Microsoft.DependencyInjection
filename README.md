@@ -45,7 +45,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ## Examples
 
-For example of using Unity with NET6 Web Api application follow [this link](https://github.com/michal-korniak/MKForks.Unity.Microsoft.DependencyInjection.Example)
+For example of using Unity with NET 6 Web Api application follow [this link](https://github.com/michal-korniak/MKForks.Unity.Microsoft.DependencyInjection.Example)
 
 ## Fork
 
