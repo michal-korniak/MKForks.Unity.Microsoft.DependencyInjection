@@ -70,14 +70,24 @@ public void ConfigureServices(IServiceCollection services)
 
 For example of using Unity with Core 3.1 Web application follow [this link](https://github.com/unitycontainer/examples/tree/master/src/web/ASP.Net.Unity.Example)
 
-## Code of Conduct
+## Fork
 
-This project has adopted the code of conduct defined by the [Contributor Covenant](https://www.contributor-covenant.org/) to clarify expected behavior in our community. For more information, see the [.NET Foundation Code of Conduct](https://www.dotnetfoundation.org/code-of-conduct)
+This project is a fork of https://github.com/unitycontainer/microsoft-dependency-injection. It adds additional options that wasn't available in original library. List of changes
 
-## Contributing
+* Possiblity to choose prefered implementation (from default container or Unity). Example bellow:
 
-See the [Contributing guide](https://github.com/unitycontainer/unity/blob/master/CONTRIBUTING.md) for more information.
+```C#
+...
+unityContainer.RegisterType(typeof(ILogger<>), typeof(FakeLogger<>), new TransientLifetimeManager());
+unityContainer.RegisterType(typeof(IService), typeof(Service), new TransientLifetimeManager());
+builder.Host.UseUnityServiceProvider(unityContainer, options =>
+{
+    //By default implementations from Unity are overriden by ASP.NET implementation,
+    //we can change it using PreferUnityImplementation method
+    options.PreferUnityImplementation(typeof(ILogger<>));
+    options.PreferUnityImplementation(typeof(ILogger));
+});
+...
 
-## .NET Foundation
+```
 
-Unity Container is a [.NET Foundation](https://dotnetfoundation.org/projects/unitycontainer) project
