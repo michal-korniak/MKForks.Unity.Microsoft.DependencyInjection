@@ -37,7 +37,9 @@ namespace Unity.Microsoft.DependencyInjection
 
             if (options.KeepServiceLocatorUpdated)
             {
-                ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(container));
+                var serviceLocator = new UnityServiceLocator(container);
+                ServiceLocator.SetLocatorProvider(() => serviceLocator);
+                container.RegisterInstance<IServiceLocator>(serviceLocator);
             }
 
             return container;
