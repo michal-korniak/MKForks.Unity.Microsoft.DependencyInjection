@@ -5,7 +5,7 @@
   <PropertyGroup>
     <FileVersion>$(Version).0</FileVersion>
     <AssemblyVersion>$(Version).0</AssemblyVersion>
-    <PackageId>Unity.Microsoft.DependencyInjection</PackageId>
+    <PackageId>MKForks.Unity.Microsoft.DependencyInjection</PackageId>
     <Description>Unity for Microsoft Dependency Injection framework.</Description>
     <Copyright>Copyright © Unity Container Project 2018</Copyright>
     <PackageProjectUrl>https://github.com/michal-korniak/MKForks.Unity.Microsoft.DependencyInjection</PackageProjectUrl>
