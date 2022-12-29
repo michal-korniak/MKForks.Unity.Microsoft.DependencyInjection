@@ -68,3 +68,14 @@ builder.Host.UseUnityServiceProvider(unityContainer, options =>
 
 ```
 
+* [2.1.3 only] Integration with CommonServiceLocator (https://github.com/unitycontainer/commonservicelocator)
+
+```C#
+...
+webApplicationBuilder.Host.UseUnityServiceProvider(unityContainer, options =>
+{
+    options.KeepServiceLocatorUpdated = true;
+});
+...
+
+```
