@@ -19,7 +19,7 @@ namespace Unity.Microsoft.DependencyInjection
         {
             var optionsObject = ServiceProviderOptions.Create(options);
             return new ServiceProvider(new UnityContainer().AddExtension(new MdiExtension())
-                                                           .AddServices(services, optionsObject.TypesWithPreferedUnityImplementations));
+                                                           .AddServices(services, optionsObject));
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Unity.Microsoft.DependencyInjection
         {
             var optionsObject = ServiceProviderOptions.Create(options);
             return new ServiceProvider(container.AddExtension(new MdiExtension())
-                                                .AddServices(services, optionsObject.TypesWithPreferedUnityImplementations));
+                                                .AddServices(services, optionsObject));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Unity.Microsoft.DependencyInjection
         {
             var optionsObject = ServiceProviderOptions.Create(options);
             return new ServiceProvider(container.AddExtension(new MdiExtension())
-                                                .AddServices(services, optionsObject.TypesWithPreferedUnityImplementations));
+                                                .AddServices(services, optionsObject));
         }
     }
 }

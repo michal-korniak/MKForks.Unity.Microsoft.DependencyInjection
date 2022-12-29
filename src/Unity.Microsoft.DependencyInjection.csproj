@@ -19,7 +19,7 @@
     <RootNamespace>Unity.Microsoft.DependencyInjection</RootNamespace>
     <UnityAbstractions>..\..\Abstractions\src\Unity.Abstractions.csproj</UnityAbstractions>
     <UnityContainer>..\..\Container\src\Unity.Container.csproj</UnityContainer>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <PackageReleaseNotes />
   </PropertyGroup>
 
@@ -57,6 +57,11 @@
 
   <ItemGroup Condition="!Exists('$(UnityContainer)')">
     <PackageReference Include="Unity.Container" Version="$(UnityContainerVersion)" />      
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.6" />
+    <PackageReference Include="Unity.ServiceLocation" Version="2.1.2" />
   </ItemGroup>
 
 </Project>

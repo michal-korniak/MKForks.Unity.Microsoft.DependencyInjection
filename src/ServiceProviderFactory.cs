@@ -45,7 +45,7 @@ namespace Unity.Microsoft.DependencyInjection
             new ServiceProviderFactory(container, _options);
 
             return container.AddExtension(new MdiExtension())
-                            .AddServices(services, _options?.TypesWithPreferedUnityImplementations);
+                            .AddServices(services, _options);
         }
     }
 }

@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CommonServiceLocator;
 using Microsoft.Extensions.DependencyInjection;
 using Unity.Injection;
 using Unity.Lifetime;
 using Unity.Microsoft.DependencyInjection.Lifetime;
+using Unity.ServiceLocation;
 
 namespace Unity.Microsoft.DependencyInjection
 {
     internal static class Configuration
     {
 
-        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services, IEnumerable<Type> typesWithPreferedUnityImplementations)
+        internal static IUnityContainer AddServices(this IUnityContainer container, IServiceCollection services, ServiceProviderOptions options = null)
         {
-            typesWithPreferedUnityImplementations = typesWithPreferedUnityImplementations ?? Enumerable.Empty<Type>();
+            options = options ?? new ServiceProviderOptions();
             var lifetime = container.Configure<MdiExtension>()
                                     .Lifetime;
 
@@ -26,11 +28,16 @@ namespace Unity.Microsoft.DependencyInjection
                 for (var i = 0; i < group.Length - 1; i++)
                 {
                     var descriptor = group[i];
-                    container.Register(descriptor, Guid.NewGuid().ToString(), lifetime, typesWithPreferedUnityImplementations);
+                    container.Register(descriptor, Guid.NewGuid().ToString(), lifetime, options.TypesWithPreferedUnityImplementations);
                 }
 
                 // Register default types
-                container.Register(group[group.Length - 1], null, lifetime, typesWithPreferedUnityImplementations);
+                container.Register(group[group.Length - 1], null, lifetime, options.TypesWithPreferedUnityImplementations);
+            }
+
+            if (options.KeepServiceLocatorUpdated)
+            {
+                ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(container));
             }
 
             return container;
