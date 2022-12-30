@@ -80,4 +80,4 @@ webApplicationBuilder.Host.UseUnityServiceProvider(unityContainer, options =>
 
 ```
 
-* [2.* only] - Added implementation of ISupportRequiredService to ServiceProvider. It gives more meaningful extensions when we use GetRequiredService().
+* [2.* only] - Added implementation of ISupportRequiredService to ServiceProvider. It gives more meaningful expections when we use GetRequiredService().
