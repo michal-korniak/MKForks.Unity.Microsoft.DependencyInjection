@@ -5,6 +5,7 @@ using Unity.Lifetime;
 namespace Unity.Microsoft.DependencyInjection
 {
     public class ServiceProvider : IServiceProvider,
+                                   ISupportRequiredService,
                                    IServiceScopeFactory,
                                    IServiceScope,
                                    IDisposable
@@ -31,6 +32,11 @@ namespace Unity.Microsoft.DependencyInjection
             catch { /* Ignore */}
 
             return null;
+        }
+
+        public object GetRequiredService(Type serviceType)
+        {
+            return _container.Resolve(serviceType);
         }
 
         #endregion
