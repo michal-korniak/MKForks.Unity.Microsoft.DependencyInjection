@@ -38,13 +38,12 @@ namespace Unity.Microsoft.DependencyInjection
             return services;
         }
 
-
         private IUnityContainer CreateServiceProviderContainer(IServiceCollection services)
         {
             new ServiceProviderFactory(_container, _options);
+            _container.AddExtension(new MdiExtension()).AddServices(services, _options);
 
-            return _container.AddExtension(new MdiExtension())
-                            .AddServices(services, _options);
+            return _container;
         }
     }
 }
